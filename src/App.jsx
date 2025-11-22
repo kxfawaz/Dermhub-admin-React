@@ -52,7 +52,7 @@ function App() {
           />
 
        
-          <Route path="/" element={<Navigate to="/consultations" />} />
+          <Route path="/" element={<Navigate to="/admin-login" />} />
           <Route path="/consultations" element={<ConsultationList />} />
           <Route path="/consultations/:id" element={<ConsultationDetail />} />
 
