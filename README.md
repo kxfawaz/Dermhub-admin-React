@@ -1,20 +1,78 @@
-<<<<<<< HEAD
-# React + Vite
+# 🩺 DermHub Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DermHub Admin Dashboard is a React-based platform for dermatologists and clinical staff to review and manage patient dermatology e-consultations submitted through the main DermHub patient application.
 
-Currently, two official plugins are available:
+This project focuses exclusively on the **admin workflow**, supporting efficient review, clinical evaluation, and outcome tracking.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📌 Features
 
-## Expanding the ESLint configuration
+### Core Functionalities (MVP)
+- 🔐 Admin-only access (Will update to JWT authentication)
+- 📋 Dashboard view of all submitted consultations
+- 🔍 Consultation detail view including:
+  - Main question (skin condition)
+  - All patient answers
+  - Uploaded images with preview
+- 🔁 Secure data fetching from Flask backend
+- 🏷 Status update controls (Pending → In Review → Completed)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# Dermhub-admin-React
->>>>>>> fb695f798e17d7bebddca2188c062812d7c5ff9a
+### Stretch Features (Planned Enhancements)
+- Search and filtering by condition/date
+- Messaging/comments between admin and patient
+- Analytics for case volume and resolution speed
+- Image zoom modal and multiple-image handling
+
+---
+
+## 🧭 Admin User Flow
+
+1️⃣ **Login**
+- Admin logs in → receives secure token
+- Unauthorized users are blocked
+
+2️⃣ **View Dashboard**
+- List of patient consultations
+- Key info: submission date, status, condition
+
+3️⃣ **Open Consultation**
+- Full detail view
+- Patient answers + uploaded images visible for clinical review
+
+4️⃣ **Take Action**
+- Mark case as:
+  - Pending
+  - In Review
+  - Completed
+- *(Future: Request more info or send treatment response)*
+
+→ Case updates are saved and reflected in dashboard view.
+
+---
+
+## 🛠️ Tech Stack
+
+| Area | Technology |
+|------|------------|
+| Frontend | React (Vite), React Router |
+| UI/Styling |  CSS Modules |
+| API/Data | Axios/Fetch, REST API (Flask backend) |
+| Deploy | Render  |
+
+---
+
+## 📂 Project Structure
+
+src/
+│── api/ # API fetch helpers
+│── components/ # Shared UI components
+│── pages/ # Main routes
+│ ├── Login.jsx
+│ ├── ConsultationList.jsx
+│ ├── ConsultationDetail.jsx
+│── hooks/ # Custom hooks (optional)
+│── utils/ # Auth/token helpers
+│── App.jsx
+└── main.jsx
