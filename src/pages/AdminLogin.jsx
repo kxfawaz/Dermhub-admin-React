@@ -1,60 +1,68 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ADMIN_CREDENTIALS } from "../adminCredentials";
+import { useNavigate } from "react-router"
+import { useAuth } from "../provider/AuthProvider"
+import axios from "axios"
+import { useState } from "react"
 
-export default function AdminLogin({ onLogin }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-
+const AdminLogin = () => {
+  const {setToken} = useAuth()  //accesing the token from context
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  const [formData,setFormData] = useState({username:"",password:""});
+  const [err,setError] = useState("")
 
-    if (
-      username === ADMIN_CREDENTIALS.username &&
-      password === ADMIN_CREDENTIALS.password
-    ) {
-      onLogin();
-      navigate("/questions");
-    } else {
-      setError("Invalid admin credentials");
-    }
+  function handleChange(e){
+    const {name,value} = e.target;
+    setFormData((f) => ({...f,[name]:value}))
   }
-
-  return (
-    <div className="admin-login-wrapper">
-      <div className="admin-login-card">
-
-        <h2 className="admin-login-title">Admin Login</h2>
-
-        {error && <div className="admin-login-error">{error}</div>}
-
-        <form onSubmit={handleSubmit}>
-          
-          <input
-            className="admin-login-input"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-
-          <input
-            className="admin-login-input"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <button className="admin-login-btn" type="submit">
-            Login
-          </button>
-
-        </form>
+  async function handleSubmit(e){
+    e.preventDefault();
+    setError("");
+    try{
+      const res = await axios.post("/api/admin/login",formData);
+      setToken(res.data.access_token) // saves token
+      navigate("/consultations",{replace:true}) // when authenticated navigate to /consultations and clear history
+    } catch(err){
+      const msg =
+        err.response?.data?.error || // if err.resp exists check err.response.data.error and use it,  if not return undefined
+        err.response?.data?.msg || // some return "msg", if err.resp. exists check  err.response.data.msg and use it, if not return undefined
+        "Login failed"; // if err.response doesnt exists return login failed
+      setError(msg)
+     
+    }
+ }
+ return (
+  <div className="auth-page">
+    <div className="auth-card">
+      <h1 className="auth-title">Admin Login</h1>
+        <p className="auth-subtitle">Sign in to manage the dashboard</p>
+    <form onSubmit={handleSubmit} className="auth-form">
+      <div className="field">
+        <label className="label">Username</label>
+        <input
+        className=".admin-login-input"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        />
       </div>
-    </div>
-  );
+      <div className="field">
+        <label className="label">Password</label>
+        <input
+        className=".admin-login-input"
+        name="password"
+        type="password"
+        value={formData.password}
+        onChange={handleChange}
+        />
+      </div>
+      {/* if error exists, show the error in a <p */}
+      {err && <p style={{color:"red"}}>{err}</p>} 
+
+      <button className="btn-primary" type="submit">Login</button>
+    </form>
+  </div>
+  </div>
+
+ )
 }
+export default AdminLogin

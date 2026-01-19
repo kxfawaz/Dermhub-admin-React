@@ -1,6 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/AuthProvider";
 
-export default function AdminNavbar({ onLogout }) {
+export default function AdminNavbar({}) {
+  const navigate = useNavigate();
+  const {setToken} = useAuth();
+  const onLogout = () => {
+    setToken(null);
+    navigate("/admin/login")
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark w-100">
       <div className="container-fluid">
@@ -23,7 +30,13 @@ export default function AdminNavbar({ onLogout }) {
                 Consultations
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/admin/management">
+                Admin Management
+              </Link>
+            </li>
           </ul>
+
 
           {/* Logout Button */}
           <button className="btn btn-danger" onClick={onLogout}>

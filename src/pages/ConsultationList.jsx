@@ -3,13 +3,14 @@ import {useNavigate} from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const ConsultationList= () => {
+  console.log("ConsultationList rendered");
   const [consultations,setConsultations] = useState([])
   const navigate = useNavigate()
 
     
 
     useEffect(()=>{
-
+        console.log("ConsultationList useEffect ran");
         async function loadConsults(){
             const data = await fetchConsultations();
             setConsultations(data)

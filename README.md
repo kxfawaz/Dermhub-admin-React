@@ -76,3 +76,17 @@ src/
 │── utils/ # Auth/token helpers
 │── App.jsx
 └── main.jsx
+
+
+## 🔌 API Usage
+
+The DermHub Admin Dashboard communicates with a separate Flask backend through a RESTful API. The frontend uses Axios/Fetch to perform secure HTTP requests to retrieve and update consultation data.
+
+### Key API Operations:
+- **GET `/api/consultations`** → Fetch a list of all patient consultations
+- **GET `/api/consultations/:id`** → Retrieve detailed information for a specific consultation
+- **PATCH `/api/consultations/:id/status`** → Update consultation review status (pending, in-review, completed)
+- **POST `/auth/login`** → Authenticate an administrator and receive access credentials
+
+The API sends and receives JSON, and all protected routes require a valid admin session/token.  
+This ensures **only authorized medical staff** can access sensitive patient information.
