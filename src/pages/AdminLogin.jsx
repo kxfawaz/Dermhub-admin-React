@@ -18,7 +18,7 @@ const AdminLogin = () => {
     e.preventDefault();
     setError("");
     try{
-      const res = await axios.post("/api/admin/login",formData);
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/login`,formData);
       setToken(res.data.access_token) // saves token
       navigate("/consultations",{replace:true}) // when authenticated navigate to /consultations and clear history
     } catch(err){
