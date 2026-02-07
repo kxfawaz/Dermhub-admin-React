@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from "../provider/AuthProvider"
 import axios from "axios"
 import { useState } from "react"
