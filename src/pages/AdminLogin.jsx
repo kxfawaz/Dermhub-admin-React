@@ -31,7 +31,7 @@ async function handleSubmit(e) {
       setError("Login succeeded but no token returned");
       return;
     }
-
+    console.log("typeof setToken:", typeof setToken);
     setToken(token);
     navigate("/consultations", { replace: true });
   } catch (err) {
