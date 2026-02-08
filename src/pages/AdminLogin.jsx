@@ -14,22 +14,36 @@ const AdminLogin = () => {
     const {name,value} = e.target;
     setFormData((f) => ({...f,[name]:value}))
   }
-  async function handleSubmit(e){
-    e.preventDefault();
-    setError("");
-    try{
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/login`,formData);
-      setToken(res.data.access_token) // saves token
-      navigate("/consultations",{replace:true}) // when authenticated navigate to /consultations and clear history
-    } catch(err){
-      const msg =
-        err.response?.data?.error || // if err.resp exists check err.response.data.error and use it,  if not return undefined
-        err.response?.data?.msg || // some return "msg", if err.resp. exists check  err.response.data.msg and use it, if not return undefined
-        "Login failed"; // if err.response doesnt exists return login failed
-      setError(msg)
-     
+async function handleSubmit(e) {
+  e.preventDefault();
+  setError("");
+
+  try {
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/admin/login`,
+      formData
+    );
+
+    console.log("LOGIN OK:", res.status, res.data);
+
+    const token = res.data.access_token || res.data.token || res.data.accessToken;
+    if (!token) {
+      setError("Login succeeded but no token returned");
+      return;
     }
- }
+
+    setToken(token);
+    navigate("/consultations", { replace: true });
+  } catch (err) {
+    console.log("LOGIN ERR:", err);
+    const msg =
+      err.response?.data?.error ||
+      err.response?.data?.msg ||
+      "Login failed";
+    setError(msg);
+  }
+}
+
  return (
   <div className="auth-page">
     <div className="auth-card">
