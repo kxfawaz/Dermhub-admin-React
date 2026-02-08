@@ -15,7 +15,7 @@ async function apiFetch(path, options = {}) {
   };
 
   if (token) {
-    headers.Authorization =  `${token}`;
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const url = `${BASE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
