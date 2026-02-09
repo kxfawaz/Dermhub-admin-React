@@ -25,7 +25,7 @@ const handleSubmit = async (e) => {
 
     try{
         const res = await axios.post(
-            `${BASE_URL}/admin/signup`,
+            `${BASE_URL}/api/admin/signup`,
             formData,
             {
                 headers: {Authorization: `Bearer ${token}`}
